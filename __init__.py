@@ -187,7 +187,7 @@ def enhanceReviewer():
 # ====================== #
 
 def onInsertEditor(editor):
-    editor.web.eval('setFormat("insertText", "[diff lang=\'javascript\'][/diff]");')
+    editor.web.eval('setFormat("insertText", "[diff lang=\'javascript\' theme=\'chrome\'][/diff]");')
 
 def onWrapInDiffer(editor):
     editor.web.eval('wrap("[diff-answ]", "[/diff-answ]");')
@@ -204,9 +204,9 @@ def enahceEditorButtons(buttons, editor):
             "Insert code-editor tag."),
         
         editor._addButton(
-            local('resources/browser.png'),
+            local('resources/diff.png'),
             "wrapInDiffer",
-            "Wrap selected text in code-differ.")
+            "Wrap selected text into code-differ.")
     ] + buttons
 
 
