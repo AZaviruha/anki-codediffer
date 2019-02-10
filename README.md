@@ -2,40 +2,25 @@
 
 Add-on for Anki SRC. It allows you to create cards with interactive input. Also it uses differ to visualize how your input is different from correct answer.
 
-## Examples
-
-Question:
-
-![frontside](./doc/img/frontside.png)
-
-
-Answer:
-
-![backside](./doc/img/backside.png)
-
-## When/How to use?
+## When to use?
 
 This addon should be helpful to learn some new APIs. With it you can learn API not by drilling, but by trying to solve some simple tasks.
 
+## How to use?
+
 For example, you can copy/paste some code samples from [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator):
 
+![editor](./doc/img/editor.jpg)
 
-```
-Q:
 
-Create simple example of JS Generator, that return numbers `1, 2, 3`
-[diff][/diff]
+Then you try to input the correct solution on the Question side:
 
-A:
+![frontside](./doc/img/frontside.jpg)
 
-[diff-answ]
-function* gen() { 
-  yield 1;
-  yield 2;
-  yield 3;
-}
-[/diff-answ]
-```
+
+... and then you can check how close your solution is to the right answer:
+
+![backside](./doc/img/backside.jpg)
 
 Tags `[diff][/diff]` and `[diff-answ][/diff-answ]` should be added manually. 
 It can be improved in the feature by adding some additional GUI into Anki card editor.
