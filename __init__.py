@@ -8,6 +8,11 @@ from aqt.utils import showInfo
 from aqt.qt import *
 from aqt.reviewer import Reviewer
 
+
+# ====================== #
+# Consts                 #
+# ====================== #
+
 QUESTION = 'reviewQuestion'
 ANSWER = 'reviewAnswer'
 DIFF_QUEST_PATTERN = r'\[diff(.*)?\].*\[/diff\]'
