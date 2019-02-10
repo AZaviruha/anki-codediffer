@@ -52,3 +52,8 @@ SUPPORTED_THEMES = [
 2. Add GUI to mark code editor place on the question side.
 2. Add GUI to mark differ-ed part of answer.
 4. Research how to add any of [Ace](https://ace.c9.io/)'s languages/themes on the fly.
+
+
+# Thanks
+
+<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

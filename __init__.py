@@ -1,6 +1,4 @@
-import time
 import re
-import difflib
 import os
 
 from aqt import mw
@@ -33,28 +31,36 @@ SUPPORTED_THEMES = [
     'solarized_light'
 ]
 
+# ====================== #
+# Utils                  #
+# ====================== #
+
+def local(path):
+    current = os.path.dirname(os.path.abspath(__file__))
+    return f'{current}/{path}'
 
 def bundledScript(name):
-    current = os.path.dirname(os.path.abspath(__file__))
-    content = open(f'{current}/js/{name}.js', 'r', encoding='utf-8').read()
+    content = open(local(f'js/{name}.js'), 'r', encoding='utf-8').read()
     return f'<script type="text/javascript">{content}</script>'
 
 def bundledVendorScript(name):
     return bundledScript(f'vendor/{name}')
 
 def bundledStyle(name):
-    current = os.path.dirname(os.path.abspath(__file__))
-    content = open(f'{current}/css/{name}.css', 'r', encoding='utf-8').read()
+    content = open(local(f'css/{name}.css'), 'r', encoding='utf-8').read()
     return f'<style type="text/css" media="screen">{content}</style>'
 
 def bundledVendorStyle(name):
     return bundledStyle(f'vendor/{name}')
 
 
+# ====================== #
+# Card reviewer          #
+# ====================== #
+
 userInput = ['']
 def updateUserInput(val):
     userInput[0] = val
-
 
 def formatQuestion(quest):
     config = mw.addonManager.getConfig(__name__) or dict()
@@ -93,7 +99,6 @@ def formatQuestion(quest):
             window.codeEditor.on('change', e => pycmd('{EVENT_CHANGED}')); 
         </script>
     '''
-
 
 def formatAnswer(answer, card):
     hasDiff = re.search(DIFF_QUEST_PATTERN, answer, flags=re.MULTILINE)
@@ -143,7 +148,6 @@ def formatAnswer(answer, card):
         </script>
     '''
 
-
 def onPrepareQA(text, card, state):
     if (state == QUESTION):
         return formatQuestion(text)
@@ -151,7 +155,6 @@ def onPrepareQA(text, card, state):
         return formatAnswer(text, card)
     
     return text
-
 
 def wrapOnCmd(onCmd):
     def _onCmd(str):
@@ -163,8 +166,41 @@ def wrapOnCmd(onCmd):
     return _onCmd
 
 
-def start():
-    mw.web._page._bridge.onCmd = wrapOnCmd(mw.web._page._bridge.onCmd)
+def enhanceReviewer():
+    mw.reviewer._linkHandler = wrapOnCmd(mw.reviewer._linkHandler)
     addHook('prepareQA', onPrepareQA)
 
-addHook("profileLoaded", start)
+
+# ====================== #
+# Card editor            #
+# ====================== #
+
+def onInsertEditor(editor):
+    editor.web.eval('setFormat("insertText", "[diff][/diff]");')
+
+def onWrapInDiffer(editor):
+    editor.web.eval('wrap("[diff-answ]", "[/diff-answ]");')
+
+def enahceEditorButtons(buttons, editor):
+    editor._links['insertEditor'] = onInsertEditor
+    editor._links['wrapInDiffer'] = onWrapInDiffer
+
+    return [
+        editor._addButton(
+            local('coding.png'),
+            "insertEditor",
+            "Insert code-editor tag."),
+        
+        editor._addButton(
+            local('analytics.png'),
+            "wrapInDiffer",
+            "Wrap selected text in code-differ.")
+    ] + buttons
+
+
+# ====================== #
+# Entry point            #
+# ====================== #
+
+addHook("profileLoaded", enhanceReviewer)
+addHook("setupEditorButtons", enahceEditorButtons)
