@@ -48,8 +48,7 @@ SUPPORTED_THEMES = [
 
 ## TODO
 
-1. Allow to override sample's language by car'ds field `Lang`.
-2. Research how to add any of [Ace](https://ace.c9.io/)'s languages/themes on the fly.
+1. Research how to add any of [Ace](https://ace.c9.io/)'s languages/themes on the fly.
 
 # Used libraries and resources
 
