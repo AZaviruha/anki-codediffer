@@ -36,7 +36,7 @@ SUPPORTED_THEMES = [
 
 def bundledScript(name):
     current = os.path.dirname(os.path.abspath(__file__))
-    content = open(f'{current}/js/{name}.js', 'r').read()
+    content = open(f'{current}/js/{name}.js', 'r', encoding='utf-8').read()
     return f'<script type="text/javascript">{content}</script>'
 
 def bundledVendorScript(name):
@@ -44,7 +44,7 @@ def bundledVendorScript(name):
 
 def bundledStyle(name):
     current = os.path.dirname(os.path.abspath(__file__))
-    content = open(f'{current}/css/{name}.css', 'r').read()
+    content = open(f'{current}/css/{name}.css', 'r', encoding='utf-8').read()
     return f'<style type="text/css" media="screen">{content}</style>'
 
 def bundledVendorStyle(name):
