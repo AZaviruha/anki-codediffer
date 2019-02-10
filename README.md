@@ -25,7 +25,7 @@ Then you try to input the correct solution on the Question side:
 Tags `[diff][/diff]` and `[diff-answ][/diff-answ]` should be added manually. 
 It can be improved in the feature by adding some additional GUI into Anki card editor.
 
-- `[diff][/diff]` is used to to let add-on figure where to insert code editor;
+- `[diff lang='sql' theme='solarized_dark'][/diff]` is used to to let add-on figure where to insert code editor, and with which settings;
 - `[diff-answ][/diff-answ]` is used to to let add-on figure which part of the answer should be used as "correct answer" in code differ.
 
 ## Supported languages and themes
@@ -49,11 +49,13 @@ SUPPORTED_THEMES = [
 ## TODO
 
 1. Allow to override sample's language by car'ds field `Lang`.
-2. Add GUI to mark code editor place on the question side.
-2. Add GUI to mark differ-ed part of answer.
-4. Research how to add any of [Ace](https://ace.c9.io/)'s languages/themes on the fly.
+2. Research how to add any of [Ace](https://ace.c9.io/)'s languages/themes on the fly.
 
+# Used libraries and resources
 
-# Thanks
+- [Ace](https://ace.c9.io/)
+- [jsdiff](https://github.com/kpdecker/jsdiff)
+- [diff2html](https://diff2html.xyz)
 
 <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+

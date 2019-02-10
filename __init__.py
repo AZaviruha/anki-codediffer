@@ -10,8 +10,10 @@ from aqt.reviewer import Reviewer
 
 QUESTION = 'reviewQuestion'
 ANSWER = 'reviewAnswer'
-DIFF_QUEST_PATTERN = r'\[diff\].*\[/diff\]'
+DIFF_QUEST_PATTERN = r'\[diff(.*)?\].*\[/diff\]'
 DIFF_ANSW_PATTERN = r'\[diff-answ\](.*)\[/diff-answ\]'
+LANG_ATTR_PATTERN = r'lang=[\'"](.*?)[\'"]'
+THEME_ATTR_PATTERN = r'theme=[\'"](.*?)[\'"]'
 
 EVENT_CHANGED = 'CUSTOM::answerChanged'
 EDITOR_ELEM_ID = 'codeEditor'
@@ -40,14 +42,14 @@ def local(path):
     return f'{current}/{path}'
 
 def bundledScript(name):
-    content = open(local(f'js/{name}.js'), 'r', encoding='utf-8').read()
+    content = open(local(f'web/js/{name}.js'), 'r', encoding='utf-8').read()
     return f'<script type="text/javascript">{content}</script>'
 
 def bundledVendorScript(name):
     return bundledScript(f'vendor/{name}')
 
 def bundledStyle(name):
-    content = open(local(f'css/{name}.css'), 'r', encoding='utf-8').read()
+    content = open(local(f'web/css/{name}.css'), 'r', encoding='utf-8').read()
     return f'<style type="text/css" media="screen">{content}</style>'
 
 def bundledVendorStyle(name):
@@ -69,17 +71,26 @@ def formatQuestion(quest):
     if (not hasDiff):
         return quest
 
-    cleanedQuest = re.sub(DIFF_QUEST_PATTERN, '', quest, flags=re.MULTILINE)
+    attrs = hasDiff.groups()[0] or ''
 
     # Prepare editor language
-    userLang = config['language']
+    cardLang = re.search(LANG_ATTR_PATTERN, attrs)
+    cardLang = cardLang.groups()[0] if cardLang else None
+    confLang = config['language']
+    userLang = cardLang or confLang
     lang = userLang if (userLang in SUPPORTED_LANGUAGES) else 'javascript'
     langScript = bundledVendorScript(f'ace/modes/{lang}')
     
     # Prepare editor theme
-    userTheme = config['theme']
+    cardTheme = re.search(THEME_ATTR_PATTERN, attrs)
+    cardTheme = cardTheme.groups()[0] if cardTheme else None
+    confTheme = config['theme']
+    userTheme = cardTheme or confTheme
     theme = userTheme if (userTheme in SUPPORTED_THEMES) else 'chrome'
     themeScript = bundledVendorScript(f'ace/themes/{theme}')
+
+    # Prepare question text
+    cleanedQuest = re.sub(DIFF_QUEST_PATTERN, '', quest, flags=re.MULTILINE)
 
     return f'''
         {bundledStyle('CodeEditor')}
@@ -176,10 +187,11 @@ def enhanceReviewer():
 # ====================== #
 
 def onInsertEditor(editor):
-    editor.web.eval('setFormat("insertText", "[diff][/diff]");')
+    editor.web.eval('setFormat("insertText", "[diff lang=\'javascript\'][/diff]");')
 
 def onWrapInDiffer(editor):
     editor.web.eval('wrap("[diff-answ]", "[/diff-answ]");')
+
 
 def enahceEditorButtons(buttons, editor):
     editor._links['insertEditor'] = onInsertEditor
@@ -187,12 +199,12 @@ def enahceEditorButtons(buttons, editor):
 
     return [
         editor._addButton(
-            local('coding.png'),
+            local('resources/coding.png'),
             "insertEditor",
             "Insert code-editor tag."),
         
         editor._addButton(
-            local('analytics.png'),
+            local('resources/browser.png'),
             "wrapInDiffer",
             "Wrap selected text in code-differ.")
     ] + buttons
