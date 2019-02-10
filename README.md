@@ -22,8 +22,7 @@ Then you try to input the correct solution on the Question side:
 
 ![backside](./doc/img/backside.jpg)
 
-Tags `[diff][/diff]` and `[diff-answ][/diff-answ]` should be added manually. 
-It can be improved in the feature by adding some additional GUI into Anki card editor.
+Tags `[diff][/diff]` and `[diff-answ][/diff-answ]` can be added manually or by editor's buttons.
 
 - `[diff lang='sql' theme='solarized_dark'][/diff]` is used to to let add-on figure where to insert code editor, and with which settings;
 - `[diff-answ][/diff-answ]` is used to to let add-on figure which part of the answer should be used as "correct answer" in code differ.
