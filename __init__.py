@@ -1,5 +1,6 @@
 import re
-import os
+from os import listdir
+from os.path import dirname, abspath, isfile, join, splitext
 
 from aqt import mw
 from anki.hooks import addHook, runHook
@@ -24,12 +25,9 @@ EVENT_CHANGED = 'CUSTOM::answerChanged'
 EDITOR_ELEM_ID = 'codeEditor'
 DIFFER_ELEM_ID = 'codeDiffer'
 
-SUPPORTED_LANGUAGES = [
-    'javascript',
-    'python',
-    'sql',
-    'typescript'
-]
+modesDir = join(dirname(abspath(__file__)), 'web/js/vendor/ace/modes')
+modeFiles = [f for f in listdir(modesDir) if isfile(join(modesDir, f))]
+SUPPORTED_LANGUAGES = [splitext(f)[0] for f in modeFiles if f.endswith('js')]
 
 SUPPORTED_THEMES = [
     'chrome',
@@ -43,7 +41,7 @@ SUPPORTED_THEMES = [
 # ====================== #
 
 def local(path):
-    current = os.path.dirname(os.path.abspath(__file__))
+    current = dirname(abspath(__file__))
     return f'{current}/{path}'
 
 def bundledScript(name):
@@ -192,7 +190,7 @@ def enhanceReviewer():
 # ====================== #
 
 def onInsertEditor(editor):
-    editor.web.eval('setFormat("insertText", "[diff lang=\'javascript\' theme=\'chrome\'][/diff]");')
+    editor.web.eval('setFormat("insertText", "[diff lang=\'javascript\'][/diff]");')
 
 def onWrapInDiffer(editor):
     editor.web.eval('wrap("[diff-answ]", "[/diff-answ]");')
