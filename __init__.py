@@ -101,7 +101,7 @@ def formatQuestion(quest):
         {cleanedQuest}
         <br>
         <br>
-        <div id="{EDITOR_ELEM_ID}"/>
+        <div id="{EDITOR_ELEM_ID}"></div>
 
         {bundledVendorScript('ace/ace')}
         {themeScript}
@@ -151,7 +151,7 @@ def formatAnswer(answer, card):
         <br>
         <br>
 
-        <div id="{DIFFER_ELEM_ID}" />
+        <div id="{DIFFER_ELEM_ID}"></div>
 
         <script>
             CodeDiffer.drawDiffer('{DIFFER_ELEM_ID}', 'side-by-side', `{correctAnswer}`, `{userAnswer}`);
